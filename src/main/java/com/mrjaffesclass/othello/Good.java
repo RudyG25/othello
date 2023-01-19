@@ -33,7 +33,6 @@ public class Good extends Player {
         ArrayList<Position> backup = this.getLegalMoves(board);
         for (int i = 0; i < list.size(); i++) {
             if (isDanger(board, list.get(i)) == true) {
-                System.out.println(list.get(i));
                 list.remove(list.get(i));
             }
         }
@@ -51,11 +50,9 @@ public class Good extends Player {
         }
         if (list.size() > 0) {
             int idx = (int) (Math.random() * list.size());
-            System.out.println("sadge");
             return list.get(idx);
         } else if (backup.size() > 0) {
             int idx = (int) (Math.random() * backup.size());
-            System.out.println("sadge2");
             return backup.get(idx);
         }
         else return null;
