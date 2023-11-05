@@ -4,7 +4,7 @@
  * All rights reserved
  */
 
-package main.java.com.mrjaffesclass.othello;
+package com.mrjaffesclass.othello;
 
 import java.util.ArrayList;
 
@@ -32,19 +32,25 @@ public class Good extends Player {
         ArrayList<Position> list = this.getLegalMoves(board);
         ArrayList<Position> backup = this.getLegalMoves(board);
         for (int i = 0; i < list.size(); i++) {
-            if (isDanger(board, list.get(i)) == true) {
+            if (isDanger(board, list.get(i))) {
                 list.remove(list.get(i));
             }
         }
         for (int i = 0; i < list.size(); i++) {
             if (isCorner(board, list.get(i))) {
-                
+                System.out.println("returned isCorner: " + list.get(i).getRow() + ", " + list.get(i).getCol());
                 return list.get(i);
             }
         }
         for (int i = 0; i < list.size(); i++) {
             if (isEdge(board, list.get(i))) {
-                
+                System.out.println("returned isEdge: " + list.get(i).getRow() + ", " + list.get(i).getCol());
+                return list.get(i);
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (!canBeTaken(board, list.get(i))) {
+                System.out.println("return cant be taken: " + list.get(i).getRow() + ", " + list.get(i).getCol());
                 return list.get(i);
             }
         }
@@ -72,6 +78,20 @@ public class Good extends Player {
          }
          return false;
     }
+    private boolean canBeTaken(Board board, Position pos) {
+        board.makeMove(new Player(this.getColor()), pos);
+        ArrayList<Position> list = this.getOtherPlayerLegalMoves(board);
+        for (int i = 0; i < list.size(); i++) {
+            Board testBoard = board;
+            Player opp = new Player(this.getColor());
+            opp.flipColor();
+            testBoard.makeMove(opp, list.get(i));
+            if (testBoard.getSquare(pos).getStatus() == opp.getColor()) {
+                return true;
+            }
+        }
+        return false;
+    }
     private boolean isEdge(Board board, Position positionToCheck) {
 
         if (positionToCheck.getRow() == 0 || positionToCheck.getRow() == 7) {
@@ -82,7 +102,21 @@ public class Good extends Player {
         }
         else return false;
     }
+    private ArrayList<Position> getOtherPlayerLegalMoves(Board board) {
+        ArrayList<Position> list = new ArrayList<>();
+        Player otherPlayer = new Player(this.getColor());
+        otherPlayer.flipColor();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Position pos = new Position(row, col);
+                if (board.isLegalMove(otherPlayer, pos)) {
+                    list.add(pos);
+                }
+            }
+        }
+        return list;
 
+    }
     private boolean isDanger(Board board, Position positionToCheck) {
         if (positionToCheck.getRow() == 0 && positionToCheck.getCol() == 1) {
             return true;

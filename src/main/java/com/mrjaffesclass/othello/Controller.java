@@ -42,7 +42,7 @@ public class Controller
     try {
       // Print heading
       System.out.println("START OF GAME");
-      System.out.println(board.toString());
+      System.out.println(board);
 
       // Black - Player 1 goes first
       boolean blackPlayersTurn = true;
@@ -59,7 +59,7 @@ public class Controller
         // display the move
         Position nextMove = playerToMove.getNextMove(this.board);
         if (nextMove != null) {
-          System.out.println(playerToMove.toString()+ " MOVE to "+nextMove.toString());
+          System.out.println(playerToMove + " MOVE to "+ nextMove);
         }
 
         // If a nextMove was NOT returned but there are legal moves available then quit with a DQ
@@ -82,7 +82,7 @@ public class Controller
 
             // Make the move and print the move and the new board
             board.makeMove(playerToMove, nextMove);
-            System.out.println(board.toString());
+            System.out.println(board);
             onePlayerCantMove = false;
           }
           
@@ -93,7 +93,7 @@ public class Controller
           } else {
             onePlayerCantMove = true;
           }
-          System.out.println(playerToMove.toString()+" HAS NO MOVE THIS TURN\n");
+          System.out.println(playerToMove +" HAS NO MOVE THIS TURN\n");
         }
         // Delay so we can see the progression in the console
         TimeUnit.MILLISECONDS.sleep(Constants.DELAY);
