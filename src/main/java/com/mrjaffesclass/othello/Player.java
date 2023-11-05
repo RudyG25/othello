@@ -9,7 +9,7 @@ package com.mrjaffesclass.othello;
  */
 public class Player
 {
-  private final int color;
+  private int color;
   
   /**
    * Player constructor
@@ -25,6 +25,10 @@ public class Player
    */
   public int getColor() {
     return this.color;
+  }
+
+  public void flipColor() {
+    this.color = (this.color == Constants.BLACK) ? Constants.WHITE : Constants.BLACK;
   }
   
   /**
